@@ -1,24 +1,31 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
+#define rozmiar 1000
+
+//W strukturze statycznej odwo³uj¹c siê do pól u¿ywaliœmy kropki (.).
+//W strukturze dynamicznej odwo³uj¹c siê do pól korzystamy z operatora strza³ki (->).
+
 struct Element{
-    int liczba;
+    int wartosc;
     Element *next; //wskaznik na nastepny element na liscie
 
     Element(); //konstruktor
 };
 
 Element::Element() {
-    next = 0;       // konstruktor
+    next = NULL;       // konstruktor
 }
 
 struct Lista{
     Element *head;
-    void dodaj (int liczba);
+    void dodaj_poczatek (int liczba);
     void dodaj_koniec (int liczba);
+    void dodaj_srodek (Element *&head, Element *granica , int liczba);
     void usun_poczatek ();
     void wyswietl_liste();
     void destroy();
@@ -36,46 +43,27 @@ Lista::~Lista()
    while(head) usun_poczatek(); //destruktor
 }
 
-void Lista::dodaj(int liczba){
+void Lista::dodaj_poczatek(int liczba){
     Element *nowy = new Element;     //tworzymy nowy element
 
-    nowy->liczba = liczba;
+    nowy->wartosc = liczba;
 
     nowy->next = head;
-    head = nowy;
-    /*
-    if (head==0)        //sprawdzamy czy to pierwszy element tablicy
-    {
-        //jezeli tak to nowy element jest teraz poczatkiem
-        head = nowy;
-    }
-    else
-    {
-        element *temp = head;
-
-        while (temp->next)
-        {
-            temp = temp->next;
-        }
-
-        temp->next = nowy;
-        nowa->next = 0;
-    }
-    */
+    head = nowy; //adres nowego elementu
 }
 
 void Lista::dodaj_koniec(int liczba)
 {
-    Element *nowy, *nowy2;
-    nowy2 = new Element;
-    nowy2->next = NULL;
-    nowy2->liczba = liczba;
+    Element *nowy, *koniec;
+    koniec = new Element;
+    koniec->next = NULL;
+    koniec->wartosc = liczba;
     nowy = head;
     if (nowy){
         while (nowy->next) nowy = nowy->next;
-        nowy->next = nowy2;
+        nowy->next = koniec;
     }
-    else head = nowy2;
+    else head = koniec;
 
 }
 
@@ -84,7 +72,7 @@ void Lista::usun_poczatek()
     Element *nowy = head; //zapamietujemy poczatek
     if (nowy)
     {
-        head = nowy->next;
+        head = nowy->next; //poczatkiem bedzie kolejny element
         delete nowy;
     }
 
@@ -94,6 +82,17 @@ void Lista::usun_poczatek()
     head = temp2;
     temp = NULL;
     */
+}
+
+void Lista::dodaj_srodek(Element *&head, Element *granica, int liczba)
+{
+    Element *nowy = head;
+    //sprawdzenie czy nie wstawiamy na pierwsze mniejsce listy
+
+    while (nowy->next != granica) nowy = nowy ->next;
+    nowy -> next = new Element;
+    nowy -> next -> next = granica;
+    nowy -> next -> wartosc = liczba;
 }
 
 void Lista::destroy()
@@ -116,7 +115,7 @@ void Lista::wyswietl_liste()
     // przewijamy wskazniki na nastepne elementy
     while (temp)
     {
-        cout << temp->liczba <<" ";
+        cout << temp->wartosc <<" ";
         temp=temp->next;
     }
 }
@@ -124,27 +123,49 @@ void Lista::wyswietl_liste()
 Element *Lista::find_first(int liczba)
 {
     Element *temp = head;
-    while (temp && temp->liczba != liczba) temp = temp->next;
+    while (temp && temp->wartosc != liczba) temp = temp->next;
     return temp;
+}
+
+//dodawanie wg kryteriow
+Element *wstawianie(int liczba, Element *head)
+{
+    Element *wsk, *poprzednik, *nastepnik;
+    wsk = new Element;
+    wsk->wartosc = liczba;
+    poprzednik = NULL;
+    nastepnik = head;
+    while (nastepnik!=NULL)
+        if (nastepnik->wartosc>=liczba)
+        {
+            wsk->next=nastepnik;
+            if(poprzednik!=NULL)//dolaczenie wewnatrz listy
+            {
+                poprzednik->next = wsk;
+                return head;
+            }
+            else return wsk; //dolaczenie na poczatku listy
+        }
+        else
+        {
+            poprzednik = nastepnik;
+            nastepnik = poprzednik ->next;
+        }
+     wsk -> next = NULL;    //dolaczenie na koncu listy
+     poprzednik -> next = wsk;
+     return head;
 }
 
 int main(){
     Lista L;
-    Element *nowy;
-    for (int i=0; i<40; i++) L.dodaj(i);
+    //Element *nowy;
+    for (int i=0; i<40; i++) L.dodaj_poczatek(i);
     L.wyswietl_liste();
+
+    //losowa lista
+    srand(time(NULL));
+    int liczba = rand()%(rozmiar+1);
+    cout<<liczba;
 
 return 0;
 }
-
-//push_front
-//push_back
-//insert
-//pop_front
-//pop_back
-//size
-//max_size
-//empty
-//remove
-//sort
-//reverse
