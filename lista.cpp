@@ -15,7 +15,7 @@ element* head;
 element* dodaj_poczatek(element *&head, int liczba);
 element* add(element *&head, int liczba);
 element* usun_poczatek(element *&head);
-element* wyszukaj(int liczba);
+element* wyszukaj(element *&head, int liczba);
 element* wyswietl(element *head);
 
 element* dodaj_poczatek(element *&head, int liczba)
@@ -75,6 +75,9 @@ int main()
     for (int i=0; i<40; i++) add(lista,i);
     wyswietl(lista);
     usun_poczatek(lista);
+    cout<<endl;
+
+    for (int i=0; i<40;i++) cout<<wyszukaj(lista, i)<<endl;
 
     //losowa lista
     srand(time(NULL));
@@ -94,7 +97,7 @@ element *usun_poczatek(element *&head)
 }
 
 //Wyszukuje pierwszy element listy o danej wartosci
-element* wyszukaj(int liczba)
+element* wyszukaj(element *&head, int liczba)
 {
     element *temp = head;
     while (temp && temp->wartosc != liczba) temp = temp->next;
