@@ -9,35 +9,16 @@ using namespace std;
 struct element{
     int wartosc;
     element *next;
-
-    element();
 };
 
-element::element(){
-    next = NULL;
-}
-
 element* head;
-element* dodaj_poczatek(int liczba);
-element* usun_poczatek();
+element* dodaj_poczatek(element *&head, int liczba);
+element* add(element *&head, int liczba);
+element* usun_poczatek(element *&head);
 element* wyszukaj(int liczba);
-element* wstawianie(int liczba, element *head);
-element* wyswietl();
+element* wyswietl(element *head);
 
-
-int main()
-{
-    for (int i=0; i<40; i++) dodaj_poczatek(i);
-    wyswietl();
-
-    //losowa lista
-    srand(time(NULL));
-    int liczba = rand()%(rozmiar+1);
-    cout<<liczba;
-    return 0;
-}
-
-element *dodaj_poczatek(int liczba)
+element* dodaj_poczatek(element *&head, int liczba)
 {
     element *nowy = new element;     //tworzymy nowy element
 
@@ -47,7 +28,62 @@ element *dodaj_poczatek(int liczba)
     head = nowy; //adres nowego elementu
 }
 
-element *usun_poczatek()
+element* add(element *&head, int liczba)
+{
+    if (head == NULL)           //pusta lista
+    {
+        head = new element;
+        head -> wartosc = liczba;
+        head -> next = NULL;
+    }
+
+    if (liczba < head->wartosc)     //dodanie na poczatku
+    {
+        element *nowy = head;
+        head = new element;
+        head->wartosc = liczba;
+        head->next = nowy;
+    }
+    /*
+    if (liczba == head -> wartosc)
+        return 0;
+    */
+
+    element *wsk = head;
+    while (wsk -> next && wsk -> next -> wartosc < liczba)
+        wsk = wsk -> next;
+
+    if (wsk -> next == NULL)           //dodanie na koncu
+    {
+        wsk -> next = new element;
+        wsk -> next -> wartosc = liczba;
+        wsk -> next -> next = NULL;
+    }
+    else
+    {
+        element *temp = wsk-> next;
+        wsk -> next = new element;
+        wsk -> next -> wartosc = liczba;
+        wsk -> next -> next = temp;
+    }
+}
+
+int main()
+{
+    element *lista = NULL;
+    //bez powtarzajacych sie elementow prosze
+    for (int i=0; i<40; i++) add(lista,i);
+    wyswietl(lista);
+    usun_poczatek(lista);
+
+    //losowa lista
+    srand(time(NULL));
+    int liczba = rand()%(rozmiar+1);
+    cout<<liczba;
+    return 0;
+}
+
+element *usun_poczatek(element *&head)
 {
     element *nowy = head; //zapamietujemy poczatek
     if (nowy)
@@ -65,37 +101,7 @@ element* wyszukaj(int liczba)
     return temp;
 }
 
-//dodawanie wg kryteriow
-element* wstawianie(int liczba, element *head)
-{
-    element *wsk, *poprzednik, *nastepnik;
-    wsk = new element;
-    wsk->wartosc = liczba;
-    poprzednik = NULL;
-    nastepnik = head;
-    while (nastepnik!=NULL)
-        if (nastepnik->wartosc>=liczba)
-        {
-            wsk->next=nastepnik;
-            if(poprzednik!=NULL)//dolaczenie wewnatrz listy
-            {
-                poprzednik->next = wsk;
-                return head;
-            }
-            else return wsk; //dolaczenie na poczatku listy
-        }
-        else
-        {
-            poprzednik = nastepnik;
-            nastepnik = poprzednik ->next;
-        }
-     wsk -> next = NULL;    //dolaczenie na koncu listy
-     poprzednik -> next = wsk;
-     return head;
-}
-
-
-element* wyswietl()
+element* wyswietl(element *head)
 {
     element *temp = head;
 
