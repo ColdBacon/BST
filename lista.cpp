@@ -17,6 +17,7 @@ element* add(element *&head, int liczba);
 element* usun_poczatek(element *&head);
 element* wyszukaj(element *&head, int liczba);
 element* wyswietl(element *head);
+element* niszcz(element *&head);
 
 element* dodaj_poczatek(element *&head, int liczba)
 {
@@ -71,18 +72,29 @@ element* add(element *&head, int liczba)
 int main()
 {
     element *lista = NULL;
+
+    int tablica[rozmiar];
+    for (int i=0; i<rozmiar;i++)
+    {
+        tablica[i]=(rand()%rozmiar)+1;
+        cout<<tablica[i]<<'\t';
+    }
     //bez powtarzajacych sie elementow prosze
-    for (int i=0; i<40; i++) add(lista,i);
+    for (int i=0; i<40; i++) add(lista,tablica[i]);
     wyswietl(lista);
     usun_poczatek(lista);
     cout<<endl;
 
-    for (int i=0; i<40;i++) cout<<wyszukaj(lista, i)<<endl;
+    for (int i=0; i<40;i++) cout<<wyszukaj(lista,tablica[i])<<endl;
 
     //losowa lista
     srand(time(NULL));
     int liczba = rand()%(rozmiar+1);
     cout<<liczba;
+
+    niszcz(lista);
+    wyswietl(lista);
+
     return 0;
 }
 
@@ -113,5 +125,16 @@ element* wyswietl(element *head)
     {
         cout << temp->wartosc <<" ";
         temp=temp->next;
+    }
+}
+
+element* niszcz(element *&head)
+{
+
+    element *nowy = head; //zapamietujemy poczatek
+    while (nowy)
+    {
+        head = nowy->next; //poczatkiem bedzie kolejny element
+        delete nowy;
     }
 }
