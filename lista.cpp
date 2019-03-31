@@ -4,7 +4,7 @@
 
 using namespace std;
 
-#define rozmiar 1000
+#define rozmiar 15
 
 struct element{
     int wartosc;
@@ -12,14 +12,6 @@ struct element{
 };
 
 element* head;
-/*
-element* dodaj_poczatek(element *&head, int liczba);
-element* add(element *&head, int liczba);
-element* usun_poczatek(element *&head);
-element* wyszukaj(element *&head, int liczba);
-element* wyswietl(element *head);
-element* niszcz(element *&head);
-*/
 
 element* dodaj_poczatek(element *&head, int liczba)
 {
@@ -31,13 +23,14 @@ element* dodaj_poczatek(element *&head, int liczba)
     head = nowy; //adres nowego elementu
 }
 
-element* add(element *&head, int liczba)
+int add(element *&head, int liczba)
 {
     if (head == NULL)           //pusta lista
     {
         head = new element;
         head -> wartosc = liczba;
         head -> next = NULL;
+        return 1;
     }
 
     if (liczba < head->wartosc)     //dodanie na poczatku
@@ -46,11 +39,11 @@ element* add(element *&head, int liczba)
         head = new element;
         head->wartosc = liczba;
         head->next = nowy;
+        return 1;
     }
-    /*
+
     if (liczba == head -> wartosc)
         return 0;
-    */
 
     element *wsk = head;
     while (wsk -> next && wsk -> next -> wartosc < liczba)
@@ -61,13 +54,17 @@ element* add(element *&head, int liczba)
         wsk -> next = new element;
         wsk -> next -> wartosc = liczba;
         wsk -> next -> next = NULL;
+        return 1;
     }
     else
     {
+        if (liczba == wsk -> next -> wartosc)
+            return 0;
         element *temp = wsk-> next;
         wsk -> next = new element;
         wsk -> next -> wartosc = liczba;
         wsk -> next -> next = temp;
+        return 1;
     }
 }
 
@@ -105,7 +102,7 @@ element* wyswietl(element *head)
     }
 }
 
-element *usun_poczatek(element *&head)
+element* usun_poczatek(element *&head)
 {
     element *nowy = head; //zapamietujemy poczatek
     if (nowy)
@@ -117,7 +114,6 @@ element *usun_poczatek(element *&head)
 
 element* niszcz(element *&head)
 {
-
     element *nowy = head; //zapamietujemy poczatek
     while (nowy)
     {
@@ -136,19 +132,15 @@ int main()
         cout<<tablica[i]<<'\t';
     }
     //bez powtarzajacych sie elementow prosze
-    for (int i=0; i<40; i++) add(lista,tablica[i]);
+    for (int i=0; i<rozmiar; i++) add(lista,tablica[i]);
     wyswietl(lista);
     usun_poczatek(lista);
     cout<<endl;
 
-    for (int i=0; i<40;i++) cout<<search(lista,tablica[i])<<" ";
+    for (int i=0; i<rozmiar;i++) cout<<search(lista,tablica[i])<<" ";
 
-    //losowa lista
-    srand(time(NULL));
-    int liczba = rand()%(rozmiar+1);
-    cout<<liczba;
-
-    niszcz(lista);
+    cout<<endl;
+    usun_poczatek(lista);
     wyswietl(lista);
 
     return 0;
