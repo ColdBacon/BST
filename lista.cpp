@@ -69,51 +69,26 @@ element* add(element *&head, int liczba)
     }
 }
 
-int main()
-{
-    element *lista = NULL;
-
-    int tablica[rozmiar];
-    for (int i=0; i<rozmiar;i++)
-    {
-        tablica[i]=(rand()%rozmiar)+1;
-        cout<<tablica[i]<<'\t';
-    }
-    //bez powtarzajacych sie elementow prosze
-    for (int i=0; i<40; i++) add(lista,tablica[i]);
-    wyswietl(lista);
-    usun_poczatek(lista);
-    cout<<endl;
-
-    for (int i=0; i<40;i++) cout<<wyszukaj(lista,tablica[i])<<endl;
-
-    //losowa lista
-    srand(time(NULL));
-    int liczba = rand()%(rozmiar+1);
-    cout<<liczba;
-
-    niszcz(lista);
-    wyswietl(lista);
-
-    return 0;
-}
-
-element *usun_poczatek(element *&head)
-{
-    element *nowy = head; //zapamietujemy poczatek
-    if (nowy)
-    {
-        head = nowy->next; //poczatkiem bedzie kolejny element
-        delete nowy;
-    }
-}
-
 //Wyszukuje pierwszy element listy o danej wartosci
 element* wyszukaj(element *&head, int liczba)
 {
     element *temp = head;
-    while (temp && temp->wartosc != liczba) temp = temp->next;
+    while (temp -> wartosc != liczba) temp = temp->next;
     return temp;
+}
+
+bool search (element *&head, int liczba)
+{
+    element *temp = head;
+    while (temp)
+    {
+        if (head -> wartosc = liczba) return true;
+        else
+        {
+            temp = temp -> next;
+        }
+
+    }
 }
 
 element* wyswietl(element *head)
@@ -133,6 +108,45 @@ element* niszcz(element *&head)
 
     element *nowy = head; //zapamietujemy poczatek
     while (nowy)
+    {
+        head = nowy->next; //poczatkiem bedzie kolejny element
+        delete nowy;
+    }
+}
+
+int main()
+{
+    element *lista = NULL;
+
+    int tablica[rozmiar];
+    for (int i=0; i<rozmiar;i++)
+    {
+        tablica[i]=(rand()%rozmiar)+1;
+        cout<<tablica[i]<<'\t';
+    }
+    //bez powtarzajacych sie elementow prosze
+    for (int i=0; i<40; i++) add(lista,tablica[i]);
+    wyswietl(lista);
+    usun_poczatek(lista);
+    cout<<endl;
+
+    for (int i=0; i<40;i++) cout<<search(lista,tablica[i])<<" ";
+
+    //losowa lista
+    srand(time(NULL));
+    int liczba = rand()%(rozmiar+1);
+    cout<<liczba;
+
+    niszcz(lista);
+    wyswietl(lista);
+
+    return 0;
+}
+
+element *usun_poczatek(element *&head)
+{
+    element *nowy = head; //zapamietujemy poczatek
+    if (nowy)
     {
         head = nowy->next; //poczatkiem bedzie kolejny element
         delete nowy;
