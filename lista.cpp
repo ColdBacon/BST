@@ -12,12 +12,14 @@ struct element{
 };
 
 element* head;
+/*
 element* dodaj_poczatek(element *&head, int liczba);
 element* add(element *&head, int liczba);
 element* usun_poczatek(element *&head);
 element* wyszukaj(element *&head, int liczba);
 element* wyswietl(element *head);
 element* niszcz(element *&head);
+*/
 
 element* dodaj_poczatek(element *&head, int liczba)
 {
@@ -82,11 +84,11 @@ bool search (element *&head, int liczba)
     element *temp = head;
     while (temp)
     {
-        if (head -> wartosc = liczba) return true;
-        else
+        if(liczba > temp -> wartosc)
         {
             temp = temp -> next;
-        }
+        }else if(liczba == temp -> wartosc) return true;
+        else return false;
 
     }
 }
@@ -100,6 +102,16 @@ element* wyswietl(element *head)
     {
         cout << temp->wartosc <<" ";
         temp=temp->next;
+    }
+}
+
+element *usun_poczatek(element *&head)
+{
+    element *nowy = head; //zapamietujemy poczatek
+    if (nowy)
+    {
+        head = nowy->next; //poczatkiem bedzie kolejny element
+        delete nowy;
     }
 }
 
@@ -117,7 +129,6 @@ element* niszcz(element *&head)
 int main()
 {
     element *lista = NULL;
-
     int tablica[rozmiar];
     for (int i=0; i<rozmiar;i++)
     {
@@ -141,14 +152,4 @@ int main()
     wyswietl(lista);
 
     return 0;
-}
-
-element *usun_poczatek(element *&head)
-{
-    element *nowy = head; //zapamietujemy poczatek
-    if (nowy)
-    {
-        head = nowy->next; //poczatkiem bedzie kolejny element
-        delete nowy;
-    }
 }
