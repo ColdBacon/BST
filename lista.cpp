@@ -6,7 +6,8 @@ using namespace std;
 
 #define rozmiar 15
 
-struct element{
+struct element
+{
     int wartosc;
     element *next;
 };
@@ -23,48 +24,41 @@ element* dodaj_poczatek(element *&head, int liczba)
     head = nowy; //adres nowego elementu
 }
 
-int add(element *&head, int liczba)
+element* add(element *&head, int liczba)
 {
     if (head == NULL)           //pusta lista
     {
         head = new element;
         head -> wartosc = liczba;
         head -> next = NULL;
-        return 1;
     }
 
-    if (liczba < head->wartosc)     //dodanie na poczatku
+    else if (liczba < head->wartosc)     //dodanie na poczatku
     {
         element *nowy = head;
         head = new element;
         head->wartosc = liczba;
         head->next = nowy;
-        return 1;
-    }
-
-    if (liczba == head -> wartosc)
-        return 0;
-
-    element *wsk = head;
-    while (wsk -> next && wsk -> next -> wartosc < liczba)
-        wsk = wsk -> next;
-
-    if (wsk -> next == NULL)           //dodanie na koncu
-    {
-        wsk -> next = new element;
-        wsk -> next -> wartosc = liczba;
-        wsk -> next -> next = NULL;
-        return 1;
     }
     else
     {
-        if (liczba == wsk -> next -> wartosc)
-            return 0;
-        element *temp = wsk-> next;
-        wsk -> next = new element;
-        wsk -> next -> wartosc = liczba;
-        wsk -> next -> next = temp;
-        return 1;
+        element *wsk = head;
+        while (wsk -> next && wsk -> next -> wartosc < liczba)
+            wsk = wsk -> next;
+
+        if (wsk -> next == NULL)           //dodanie na koncu
+        {
+            wsk -> next = new element;
+            wsk -> next -> wartosc = liczba;
+            wsk -> next -> next = NULL;
+        }
+        else
+        {
+            element *temp = wsk-> next;
+            wsk -> next = new element;
+            wsk -> next -> wartosc = liczba;
+            wsk -> next -> next = temp;
+        }
     }
 }
 
@@ -72,7 +66,8 @@ int add(element *&head, int liczba)
 element* wyszukaj(element *&head, int liczba)
 {
     element *temp = head;
-    while (temp -> wartosc != liczba) temp = temp->next;
+    while (temp -> wartosc != liczba)
+        temp = temp->next;
     return temp;
 }
 
@@ -84,8 +79,11 @@ bool search (element *&head, int liczba)
         if(liczba > temp -> wartosc)
         {
             temp = temp -> next;
-        }else if(liczba == temp -> wartosc) return true;
-        else return false;
+        }
+        else if(liczba == temp -> wartosc)
+            return true;
+        else
+            return false;
 
     }
 }
@@ -112,35 +110,34 @@ element* usun_poczatek(element *&head)
     }
 }
 
-element* niszcz(element *&head)
-{
-    element *nowy = head; //zapamietujemy poczatek
-    while (nowy)
-    {
-        head = nowy->next; //poczatkiem bedzie kolejny element
-        delete nowy;
-    }
-}
-
 int main()
 {
     element *lista = NULL;
-    int tablica[rozmiar];
-    for (int i=0; i<rozmiar;i++)
+    int tab[rozmiar];
+    for (int i=0; i<rozmiar; i++)
     {
-        tablica[i]=(rand()%rozmiar)+1;
-        cout<<tablica[i]<<'\t';
+        tab[i] = (rand()%100000)+1;
+        for (int j=0; j<i; j++)
+        {
+            while (tab[i] == tab[j])
+                tab[i] = (rand()%100000)+1;
+        }
+
+        cout<<tab[i]<<'\t';
     }
-    //bez powtarzajacych sie elementow prosze
-    for (int i=0; i<rozmiar; i++) add(lista,tablica[i]);
+
+    for (int i=0; i<rozmiar; i++)
+        add(lista,tab[i]);
     wyswietl(lista);
-    usun_poczatek(lista);
     cout<<endl;
 
-    for (int i=0; i<rozmiar;i++) cout<<search(lista,tablica[i])<<" ";
+    for (int i=0; i<rozmiar; i++)
+        cout<<search(lista,tab[i])<<" ";
 
-    cout<<endl;
-    usun_poczatek(lista);
+    //niszczenie listy
+    for (int i=0; i<rozmiar;i++)
+        usun_poczatek(lista);
+
     wyswietl(lista);
 
     return 0;
