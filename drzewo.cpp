@@ -63,7 +63,30 @@ tree* view(tree* root)
 }
 
 //------------------------------- 3 porzadki przechodzenia drzew / usuwanie podobnie jak postorder
+void inorder(tree *root) {
+	if(root != NULL) {
+		inorder(root->left);
+		cout<<(root->info)<<'\t';
+		inorder(root->right);
+	}
+	return;
+}
 
+int height(tree *root)
+{
+    int left, right;
+    if(root != NULL)
+    {
+        left = height(root->left);
+        right = height(root->right);
+        if(left>right)
+            return left+1;
+        else
+            return right+1;
+    }
+    else
+        return 0;
+}
 
 int main()
 {
@@ -86,5 +109,7 @@ int main()
     {
         cout<<search(drzewo,tab[i]);
     }
+
+    cout<<endl<<height(drzewo);
     return 0;
 }
