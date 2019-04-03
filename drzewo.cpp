@@ -88,6 +88,15 @@ int height(tree *root)
         return 0;
 }
 
+void usun(tree* root)
+{
+    if(root==NULL) return;
+    usun(root->left);
+    usun(root->right);
+    cout<<"deleting node: "<<root->info<<endl;
+    free(root);
+}
+
 int main()
 {
     srand(time(NULL));
@@ -110,6 +119,8 @@ int main()
         cout<<search(drzewo,tab[i]);
     }
 
-    cout<<endl<<height(drzewo);
+    cout<<endl<<height(drzewo)<<endl;
+
+    usun(drzewo);
     return 0;
 }
