@@ -2,7 +2,7 @@
 #include<cstdlib>
 #include<ctime>
 
-#define rozmiar 100
+#define rozmiar 5
 
 using namespace std;
 
@@ -124,3 +124,13 @@ int main()
     usun(drzewo);
     return 0;
 }
+/*
+clock_t start;
+    double duration;
+    start = clock();
+    cout<<start<<endl;
+    quicksort(A);
+    cout<<clock()<<endl;
+    duration = ( clock() - start ) / (double) CLOCKS_PER_SEC;
+    cout<<"printf: "<< duration <<endl;
+    */
