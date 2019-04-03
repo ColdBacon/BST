@@ -45,8 +45,9 @@ bool search(tree* root, int liczba)
             ptr = ptr -> right;
             return search(root -> right, liczba);
         }
-        else break;
+        //else break;
     }
+    return false;
 }
 
 //---------------------------------------------------wyswetlenie
