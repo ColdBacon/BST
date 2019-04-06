@@ -2,7 +2,7 @@
 #include<cstdlib>
 #include<ctime>
 
-#define rozmiar 5
+#define rozmiar 100000
 
 using namespace std;
 
@@ -93,7 +93,7 @@ void usun(tree* root)
     if(root==NULL) return;
     usun(root->left);
     usun(root->right);
-    cout<<"deleting node: "<<root->info<<endl;
+    //cout<<"deleting node: "<<root->info<<endl;
     free(root);
 }
 
@@ -102,35 +102,40 @@ int main()
     srand(time(NULL));
     tree *drzewo = NULL;
     int tab[rozmiar];
-    for(int i=0; i<rozmiar; i++){
-        tab[i]=(rand()%10000)+1;
-        cout<<tab[i]<<'\t';
+    for (int i=0; i<rozmiar; i++)
+    {
+        tab[i] = (rand()%1000000)+1;
+        for (int j=0; j<i; j++)
+        {
+            while (tab[i] == tab[j])
+                tab[i] = (rand()%1000000)+1;
+        }
+
+        //cout<<tab[i]<<'\t';
     }
 
     for(int i=0; i<rozmiar; i++){
         insert(&drzewo, tab[i]);
     }
+
     cout<<endl;
-    cout<<endl;
-    view(drzewo);
+    //view(drzewo);
 
     for (int i=0; i<rozmiar;i++)
     {
-        cout<<search(drzewo,tab[i]);
+        search(drzewo,tab[i]);
     }
 
-    cout<<endl<<height(drzewo)<<endl;
+    //cout<<endl<<height(drzewo)<<endl;
 
-    usun(drzewo);
-    return 0;
-}
-/*
-clock_t start;
+    clock_t start;
     double duration;
     start = clock();
     cout<<start<<endl;
-    quicksort(A);
+    usun(drzewo);
     cout<<clock()<<endl;
     duration = ( clock() - start ) / (double) CLOCKS_PER_SEC;
     cout<<"printf: "<< duration <<endl;
-    */
+
+    return 0;
+}

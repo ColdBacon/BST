@@ -4,7 +4,7 @@
 
 using namespace std;
 
-#define rozmiar 15
+#define rozmiar 100000
 
 struct element
 {
@@ -116,29 +116,38 @@ int main()
     int tab[rozmiar];
     for (int i=0; i<rozmiar; i++)
     {
-        tab[i] = (rand()%100000)+1;
+        tab[i] = (rand()%1000000)+1;
         for (int j=0; j<i; j++)
         {
             while (tab[i] == tab[j])
-                tab[i] = (rand()%100000)+1;
+                tab[i] = (rand()%1000000)+1;
         }
 
-        cout<<tab[i]<<'\t';
+        //cout<<tab[i]<<'\t';
     }
 
     for (int i=0; i<rozmiar; i++)
         add(lista,tab[i]);
-    wyswietl(lista);
+
+    //wyswietl(lista);
     cout<<endl;
 
     for (int i=0; i<rozmiar; i++)
-        cout<<search(lista,tab[i])<<" ";
+        search(lista,tab[i]);
+
+    clock_t start;
+    double duration;
+    start = clock();
+    cout<<start<<endl;
 
     //niszczenie listy
     for (int i=0; i<rozmiar;i++)
         usun_poczatek(lista);
 
-    wyswietl(lista);
+    cout<<clock()<<endl;
+    duration = ( clock() - start ) / (double) CLOCKS_PER_SEC;
+    cout<<"printf: "<< duration <<endl;
 
     return 0;
 }
+
