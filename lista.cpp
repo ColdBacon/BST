@@ -4,7 +4,7 @@
 
 using namespace std;
 
-#define rozmiar 100000
+#define rozmiar 20000
 
 struct element
 {
@@ -110,6 +110,20 @@ element* usun_poczatek(element *&head)
     }
 }
 
+element* usuwanie(element *&head)
+{
+    element *help = new element;
+    help = head;
+
+    while(help!= NULL)
+    {
+        head = help -> next;
+        delete help;
+        help = head;
+    }
+    head = NULL;
+}
+
 int main()
 {
     element *lista = NULL;
@@ -126,27 +140,42 @@ int main()
         //cout<<tab[i]<<'\t';
     }
 
+    cout<<endl;
+    clock_t start1;
+    double duration1,duration2,duration3;
+    start1 = clock();
+
     for (int i=0; i<rozmiar; i++)
         add(lista,tab[i]);
 
-    //wyswietl(lista);
-    cout<<endl;
+    duration1 = ( clock() - start1 ) / (double) CLOCKS_PER_SEC;
+    cout<<"1: "<< duration1 <<endl;
+
+    clock_t start2;
+    start2 = clock();
 
     for (int i=0; i<rozmiar; i++)
         search(lista,tab[i]);
 
-    clock_t start;
-    double duration;
-    start = clock();
-    cout<<start<<endl;
+    duration2 = ( clock() - start2 ) / (double) CLOCKS_PER_SEC;
+    cout<<"2: "<< duration2 <<endl;
 
+    clock_t start3;
+    start3 = clock();
+    cout<<start3<<endl;
+
+    /*
     //niszczenie listy
     for (int i=0; i<rozmiar;i++)
         usun_poczatek(lista);
+    */
+    usuwanie(lista);
 
     cout<<clock()<<endl;
-    duration = ( clock() - start ) / (double) CLOCKS_PER_SEC;
-    cout<<"printf: "<< duration <<endl;
+    duration3 = ( clock() - start3 ) / (double) CLOCKS_PER_SEC;
+    cout<<"3: "<< duration3 <<endl;
+
+    wyswietl(lista);
 
     return 0;
 }
