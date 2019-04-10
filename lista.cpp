@@ -4,7 +4,7 @@
 
 using namespace std;
 
-#define rozmiar 20000
+#define rozmiar 150000
 
 struct element
 {

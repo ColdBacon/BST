@@ -2,7 +2,7 @@
 #include<cstdlib>
 #include<ctime>
 
-#define rozmiar 20000
+#define rozmiar 15
 
 using namespace std;
 
@@ -79,6 +79,29 @@ void inorder(tree *root)
     return;
 }
 
+void postorder(tree *root)
+{
+    if(root != NULL)
+    {
+        inorder(root->left);
+        inorder(root->right);
+        cout<<(root->info)<<'\t';
+    }
+    return;
+}
+
+void preorder(tree *root)
+{
+    if(root != NULL)
+    {
+        cout<<(root->info)<<'\t';
+        inorder(root->left);
+        inorder(root->right);
+    }
+    return;
+}
+
+
 int height(tree *root)
 {
     int left, right;
@@ -103,6 +126,38 @@ void usun(tree* root)
     usun(root->right);
     //cout<<"deleting node: "<<root->info<<endl;
     free(root);
+}
+
+tree *AVL=NULL;
+int tablica[rozmiar];
+int i=0;
+
+void Tablica(tree* root)
+{
+    if(root)
+    {
+        if (root->left)
+            Tablica(root->left);
+        if(root)
+        {
+            //cout<<root->info<<endl;
+            tablica[i]=root->info;
+            i++;
+        }
+
+        Tablica(root->right);
+    }
+}
+
+void AVLtworzenie(int *tab, int l, int r)
+{
+    if (l!=r)
+    {
+        int q = (l+r)/2;
+        insert(&AVL,tab[q]);
+        AVLtworzenie(tab,l,q);
+        if(q+1<=r) AVLtworzenie(tab,q+1,r);
+    }
 }
 
 int main()
@@ -145,13 +200,19 @@ int main()
     duration2 = ( clock() - start2 ) / (double) CLOCKS_PER_SEC;
     cout<<"2: "<< duration2 <<endl;
 
-    //cout<<endl<<height(drzewo)<<endl;
-
+    Tablica(drzewo);
     clock_t start3;
     start3 = clock();
     usun(drzewo);
     duration3 = ( clock() - start3 ) / (double) CLOCKS_PER_SEC;
     cout<<"3: "<< duration3 <<endl;
+
+    for (int i=0; i<rozmiar; i++)
+    {
+        cout<<tablica[i]<<'\t';
+    }
+
+    AVLtworzenie(tablica,0,rozmiar);
 
     return 0;
 }
