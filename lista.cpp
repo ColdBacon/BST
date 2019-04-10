@@ -84,7 +84,6 @@ bool search (element *&head, int liczba)
             return true;
         else
             return false;
-
     }
 }
 
@@ -141,38 +140,40 @@ int main()
     }
 
     cout<<endl;
-    clock_t start1;
+
+    clock_t start1, stop1;
     double duration1,duration2,duration3;
+    cout.setf(ios::fixed);
+    cout.precision(5);
     start1 = clock();
 
     for (int i=0; i<rozmiar; i++)
         add(lista,tab[i]);
 
-    duration1 = ( clock() - start1 ) / (double) CLOCKS_PER_SEC;
+    stop1 = clock();
+    duration1 = ( stop1 - start1 ) / (double) CLOCKS_PER_SEC;
     cout<<"1: "<< duration1 <<endl;
 
-    clock_t start2;
+    clock_t start2, stop2;
     start2 = clock();
 
     for (int i=0; i<rozmiar; i++)
         search(lista,tab[i]);
 
-    duration2 = ( clock() - start2 ) / (double) CLOCKS_PER_SEC;
+    stop2 = clock();
+    duration2 = ( stop2 - start2 ) / (double) CLOCKS_PER_SEC;
     cout<<"2: "<< duration2 <<endl;
 
-    clock_t start3;
+    clock_t start3, stop3;
     start3 = clock();
-    cout<<start3<<endl;
 
-    /*
     //niszczenie listy
     for (int i=0; i<rozmiar;i++)
         usun_poczatek(lista);
-    */
-    usuwanie(lista);
 
-    cout<<clock()<<endl;
-    duration3 = ( clock() - start3 ) / (double) CLOCKS_PER_SEC;
+    //usuwanie(lista);
+    stop3 = clock();
+    duration3 = ( stop3 - start3 ) / (double) CLOCKS_PER_SEC;
     cout<<"3: "<< duration3 <<endl;
 
     wyswietl(lista);
