@@ -3,7 +3,7 @@
 #include<ctime>
 #include <windows.h>
 
-#define rozmiar 15000
+#define rozmiar 150000
 
 using namespace std;
 

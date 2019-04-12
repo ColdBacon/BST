@@ -4,7 +4,7 @@
 
 using namespace std;
 
-#define rozmiar 150000
+#define rozmiar 100000
 
 struct element
 {
@@ -126,6 +126,7 @@ element* usuwanie(element *&head)
 int main()
 {
     element *lista = NULL;
+    srand(time(NULL));
     int tab[rozmiar];
     for (int i=0; i<rozmiar; i++)
     {
