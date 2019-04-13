@@ -1,9 +1,8 @@
 #include<iostream>
 #include<cstdlib>
 #include<ctime>
-#include <windows.h>
 
-#define rozmiar 150000
+#define rozmiar 1500
 
 using namespace std;
 
@@ -137,10 +136,15 @@ int main()
     for (int i=0; i<rozmiar; i++)
     {
         tab[i] = (rand()%100000)+1;
-        for (int j=0; j<i; j++)
+        int j=0;
+        while(j<i)
         {
-            while (tab[i] == tab[j])
+            if (tab[j] == tab[i])
+            {
                 tab[i] = (rand()%100000)+1;
+                j=0;
+            }
+            else j++;
         }
 
         //cout<<tab[i]<<'\t';

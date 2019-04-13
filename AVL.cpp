@@ -3,7 +3,7 @@
 #include<ctime>
 #include<fstream>
 
-#define rozmiar 15000
+#define rozmiar 15
 
 using namespace std;
 
@@ -90,17 +90,17 @@ int height(tree *root)
 
 int main()
 {
-    srand(time(0));
+    srand(time(NULL));
     tree *drzewo=NULL;
     int tab[rozmiar];
 
     for(int i=0; i<rozmiar; i++)
     {
-        tab[i]=(rand()%10000)+1;
+        tab[i]=(rand()%100)+1;
         for(int j=0; j<i; j++)
         {
             while(tab[j]==tab[i])
-                tab[i]=(rand()%10000)+1;
+                tab[i]=(rand()%100)+1;
         }
         //cout<<tab[i]<<'\t';
     }
@@ -108,16 +108,18 @@ int main()
     for(int i=0; i<rozmiar; i++)
         insert(&drzewo, tab[i]);
 
-    ofstream plik;
-    plik.open("wysokoœæ.txt", ios::app);
+    //ofstream plik;
+    //plik.open("wysokosc.txt", ios::app);
 
     //view(drzewo);
-
+    cout<<"wysokosc BST: "<<height(drzewo)<<endl;
     Tablica(drzewo);
     AVLtworzenie(TAB, 0, rozmiar);
+    cout<<endl;
     //view(AVL);
 
-    plik<<rozmiar<<'\t'<<height(drzewo)<<'\t'<<height(AVL)<<endl;
+    //plik<<rozmiar<<'\t'<<height(drzewo)<<'\t'<<height(AVL)<<endl;
+    cout<<"wysokosc AVL: "<<height(AVL)<<endl;
 
     return 0;
 }
