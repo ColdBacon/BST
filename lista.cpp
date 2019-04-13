@@ -4,7 +4,7 @@
 
 using namespace std;
 
-#define rozmiar 100000
+#define rozmiar 1500
 
 struct element
 {
@@ -130,11 +130,16 @@ int main()
     int tab[rozmiar];
     for (int i=0; i<rozmiar; i++)
     {
-        tab[i] = (rand()%1000000)+1;
-        for (int j=0; j<i; j++)
+        tab[i] = (rand()%100000)+1;
+        int j=0;
+        while(j<i)
         {
-            while (tab[i] == tab[j])
-                tab[i] = (rand()%1000000)+1;
+            if (tab[j] == tab[i])
+            {
+                tab[i] = (rand()%100000)+1;
+                j=0;
+            }
+            else j++;
         }
 
         //cout<<tab[i]<<'\t';
