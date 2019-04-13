@@ -2,7 +2,7 @@
 #include<cstdlib>
 #include<ctime>
 
-#define rozmiar 15
+#define rozmiar 1500
 
 using namespace std;
 
@@ -130,7 +130,7 @@ void usun(tree* root)
 
 tree *AVL=NULL;
 int tablica[rozmiar];
-int i=0;
+int j=0;
 
 void Tablica(tree* root)
 {
@@ -141,8 +141,8 @@ void Tablica(tree* root)
         if(root)
         {
             //cout<<root->info<<endl;
-            tablica[i]=root->info;
-            i++;
+            tablica[j]=root->info;
+            j++;
         }
 
         Tablica(root->right);
@@ -167,52 +167,53 @@ int main()
     int tab[rozmiar];
     for (int i=0; i<rozmiar; i++)
     {
-        tab[i] = (rand()%1000000)+1;
-        for (int j=0; j<i; j++)
+        tab[i] = (rand()%10000)+1;
+        int j=0;
+        while(j<i)
         {
-            while (tab[i] == tab[j])
-                tab[i] = (rand()%1000000)+1;
+            if (tab[j] == tab[i])
+            {
+                tab[i] = (rand()%10000)+1;
+                j=0;
+            }
+            else j++;
         }
 
-        //cout<<tab[i]<<'\t';
+        cout<<tab[i]<<'\t';
     }
-
+    /*
     clock_t start1;
     double duration1,duration2,duration3,duration4;
     start1 = clock();
-
+    */
     for(int i=0; i<rozmiar; i++)
     {
         insert(&drzewo, tab[i]);
     }
 
-    duration1 = ( clock() - start1 ) / (double) CLOCKS_PER_SEC;
-    cout<<"1: "<< duration1 <<endl;
-
-    clock_t start2;
-    start2 = clock();
-
     for (int i=0; i<rozmiar; i++)
     {
         search(drzewo,tab[i]);
     }
-
-    duration2 = ( clock() - start2 ) / (double) CLOCKS_PER_SEC;
-    cout<<"2: "<< duration2 <<endl;
-
+    cout<<endl;
+    cout<<"INORDER: "<<endl;
+    inorder(drzewo);
+    cout<<endl;
+    cout<<"wysokosc BST: "<<height(drzewo)<<endl;
     Tablica(drzewo);
-    clock_t start3;
-    start3 = clock();
-    usun(drzewo);
-    duration3 = ( clock() - start3 ) / (double) CLOCKS_PER_SEC;
-    cout<<"3: "<< duration3 <<endl;
-
+    //usun(drzewo);
+    cout<<endl;
+    cout<<"TABLICA: "<<endl;
     for (int i=0; i<rozmiar; i++)
     {
         cout<<tablica[i]<<'\t';
     }
 
     AVLtworzenie(tablica,0,rozmiar);
+    cout<<endl;
+    cout<<"AVL: "<<endl;
+    view(AVL);
+    cout<<"wysokosc AVL: "<<height(AVL);
 
     return 0;
 }
