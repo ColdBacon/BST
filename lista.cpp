@@ -1,10 +1,12 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include<fstream>
+#include<algorithm>
 
 using namespace std;
 
-#define rozmiar 1500
+#define rozmiar 150000
 
 struct element
 {
@@ -128,15 +130,21 @@ int main()
     element *lista = NULL;
     srand(time(NULL));
     int tab[rozmiar];
+
+    for (int i=0; i<rozmiar; i++)
+        tab[i] = i+1;
+
+    random_shuffle(tab, &tab[rozmiar-1]);
+    /*
     for (int i=0; i<rozmiar; i++)
     {
-        tab[i] = (rand()%100000)+1;
+        tab[i] = (rand()%1000000)+1;
         int j=0;
         while(j<i)
         {
             if (tab[j] == tab[i])
             {
-                tab[i] = (rand()%100000)+1;
+                tab[i] = (rand()%1000000)+1;
                 j=0;
             }
             else j++;
@@ -146,7 +154,7 @@ int main()
     }
 
     cout<<endl;
-
+    */
     clock_t start1, stop1;
     double duration1,duration2,duration3;
     cout.setf(ios::fixed);
