@@ -85,8 +85,8 @@ void postorder(tree *root)
 {
     if(root != NULL)
     {
-        inorder(root->left);
-        inorder(root->right);
+        postorder(root->left);
+        postorder(root->right);
         cout<<(root->info)<<'\t';
     }
     return;
@@ -97,8 +97,8 @@ void preorder(tree *root)
     if(root != NULL)
     {
         cout<<(root->info)<<'\t';
-        inorder(root->left);
-        inorder(root->right);
+        preorder(root->left);
+        preorder(root->right);
     }
     return;
 }
