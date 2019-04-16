@@ -2,7 +2,7 @@
 #include<cstdlib>
 #include<ctime>
 
-#define rozmiar 1500
+#define rozmiar 5
 
 using namespace std;
 
@@ -83,8 +83,8 @@ void postorder(tree *root)
 {
     if(root != NULL)
     {
-        inorder(root->left);
-        inorder(root->right);
+        postorder(root->left);
+        postorder(root->right);
         cout<<(root->info)<<'\t';
     }
     return;
@@ -95,8 +95,8 @@ void preorder(tree *root)
     if(root != NULL)
     {
         cout<<(root->info)<<'\t';
-        inorder(root->left);
-        inorder(root->right);
+        preorder(root->left);
+        preorder(root->right);
     }
     return;
 }
@@ -124,7 +124,7 @@ void usun(tree* root)
         return;
     usun(root->left);
     usun(root->right);
-    //cout<<"deleting node: "<<root->info<<endl;
+    cout<<"deleting node: "<<root->info<<endl;
     free(root);
 }
 
@@ -200,8 +200,18 @@ int main()
     inorder(drzewo);
     cout<<endl;
     cout<<"wysokosc BST: "<<height(drzewo)<<endl;
+
+    while (drzewo)
+    {
+        if (drzewo->right) drzewo = drzewo -> right;
+        else{
+            cout<<"Wartosc najbardziej na prawo: "<<drzewo->info<<endl;
+            break;
+        }
+
+    }
     Tablica(drzewo);
-    //usun(drzewo);
+    usun(drzewo);
     cout<<endl;
     cout<<"TABLICA: "<<endl;
     for (int i=0; i<rozmiar; i++)
